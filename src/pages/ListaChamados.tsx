@@ -22,6 +22,11 @@ import { BookmarkCheck } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { signOut } from "firebase/auth";
+import { auth } from "../db/firabase";
+import { useNavigate } from "react-router-dom";
+
+
 
 interface Chamado {
   id: string;
@@ -36,6 +41,13 @@ interface Chamado {
 }
 
 export default function ListaChamados() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/");
+  };
+
   const [predioSelecionado, setPredioSelecionado] = useState("");
   const [chamados, setChamados] = useState<Chamado[]>([]);
   const [carregando, setCarregando] = useState(false);
@@ -98,14 +110,23 @@ export default function ListaChamados() {
   return (
     <div className="flex flex-col items-center h-screen w-full bg-zinc-700 text-white">
       <div className="flex flex-col w-[350px] max-w-3xl p-6 mt-8">
+        
         <h2 className="!text-2xl font-bold !gap-1 !pt-5">Chamados por Prédio</h2>
 
         <div className="!mb-6 flex flex-col items-start gap-6">
+          
           <Label className="mb-1 text-sm">Selecione o prédio</Label>
           <Select
             value={predioSelecionado}
             onValueChange={(value) => setPredioSelecionado(value)}
           >
+            <Button
+          onClick={handleLogout}
+          variant="secondary"
+          className="!w-[60px] !rounded-sm !bg-red-600 !text-white hover:underline"
+        >
+          Sair
+        </Button>
             <SelectTrigger
               className="w-[360px] !h-10 !pl-3 !border-1 !mb-5 !border-zinc-800 !text-zinc-300 !hover:border-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-500"
             >
@@ -122,9 +143,11 @@ export default function ListaChamados() {
                 </SelectItem>
               ))}
             </SelectContent>
+            
           </Select>
+          
         </div>
-
+              
         {carregando && <p className="text-indigo-200">Carregando chamados...</p>}
 
         {!carregando && chamados.length === 0 && predioSelecionado && (
@@ -174,11 +197,16 @@ export default function ListaChamados() {
                       Marcar como resolvido
                     </Toggle>
                   </Button>
+
                 )}
+
               </CardContent>
+
             </div>
           </Card>
+
         ))}
+        
       </div>
     </div>
   );

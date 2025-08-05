@@ -10,7 +10,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./db/firabase";
 import { Navigate } from "react-router-dom";
 import Registro from './pages/Registro.tsx';
-
+import { AuthProvider } from "./AuthContext";
 function RotaPrivada({ children }: { children: JSX.Element }) {
   const [logado, setLogado] = useState<boolean | null>(null);
 
@@ -27,28 +27,31 @@ function RotaPrivada({ children }: { children: JSX.Element }) {
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
-    <Routes>
+  <AuthProvider>
+    <BrowserRouter>
+      <Routes>
 
-      <Route path="/registro" element={<Registro />} />
-      <Route path="/" element={<Login />} />
-      <Route
-        path="/novo-chamado"
-        element={
-          <RotaPrivada>
-            <NovoChamado />
-          </RotaPrivada>
-        }
-      />
-      <Route
-        path="/lista"
-        element={
-          <RotaPrivada>
-            <ListaChamados />
-          </RotaPrivada>
-        }
-      />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/" element={<Login />} />
+        <Route
+          path="/novo-chamado"
+          element={
+            <RotaPrivada>
+              <NovoChamado />
+            </RotaPrivada>
+          }
+        />
+        <Route
+          path="/lista"
+          element={
+            <RotaPrivada>
+              <ListaChamados />
+            </RotaPrivada>
+          }
+        />
 
-    </Routes>
-  </BrowserRouter>
+      </Routes>
+    </BrowserRouter>
+  </AuthProvider>
+
 );

@@ -27,6 +27,11 @@ import {
   SelectContent,
   SelectItem,
 } from "../components/ui/select";
+import { signOut } from "firebase/auth";
+import { auth } from "../db/firabase";
+import { useNavigate } from "react-router-dom";
+
+
 
 const chamadoSchema = z.object({
   predio: z.string().min(1, "Selecione o prédio"),
@@ -37,9 +42,18 @@ const chamadoSchema = z.object({
   sala: z.string().optional(),
 });
 
+
 type ChamadoFormData = z.infer<typeof chamadoSchema>;
 
+
+
 export default function NovoChamado() {
+  const navigate = useNavigate(); // ← movido para dentro do componente
+
+const handleLogout = async () => {
+  await signOut(auth);
+  navigate("/"); // ← agora funciona corretamente
+};
   const form = useForm<ChamadoFormData>({
     resolver: zodResolver(chamadoSchema),
     defaultValues: {
@@ -167,7 +181,7 @@ export default function NovoChamado() {
                   )}
                 />
               </div>
-                <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
                 <FormField
                   control={form.control}
                   name="chamado"
@@ -185,7 +199,7 @@ export default function NovoChamado() {
                     </FormItem>
                   )}
                 />
-          
+
                 <FormField
                   control={form.control}
                   name="descricao"
@@ -221,7 +235,15 @@ export default function NovoChamado() {
                 >
                   Enviar
                 </Button>
+
               </div>
+              <Button
+                onClick={handleLogout}
+                variant="secondary"
+                className="!bg-red-500 !rounded-sm !text-white hover:underline"
+              >
+                Sair
+              </Button>
             </form>
           </Form>
         </CardContent>

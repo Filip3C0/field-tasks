@@ -6,6 +6,13 @@ import { doc, getDoc } from "firebase/firestore";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import toast from "react-hot-toast";
+import { z } from "zod";
+
+// Validação com zod
+const loginSchema = z.object({
+  email: z.string().email({ message: "E-mail inválido" }),
+  senha: z.string().min(6, { message: "A senha deve ter pelo menos 6 caracteres" }),
+});
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,11 +20,17 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    const resultado = loginSchema.safeParse({ email, senha });
+
+    if (!resultado.success) {
+      resultado.error.issues.forEach((err) => toast.error(err.message));
+      return;
+    }
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, senha);
       const user = userCredential.user;
 
-      // Buscar o tipo de usuário no Firestore
       const docRef = doc(db, "usuarios", user.uid);
       const docSnap = await getDoc(docRef);
 
@@ -27,9 +40,9 @@ export default function Login() {
         toast.success("Login realizado com sucesso!");
 
         if (tipo === "n1") {
-          navigate("/novo-chamado"); // ou a rota que você usa para N1
+          navigate("/novo-chamado");
         } else if (tipo === "n2") {
-          navigate("/lista"); // ou a rota que você usa para N2
+          navigate("/lista");
         } else {
           toast.error("Tipo de usuário inválido.");
         }
@@ -38,22 +51,21 @@ export default function Login() {
       }
     } catch (error: any) {
       console.error("Erro no login:", error);
-      toast.error(
-        "Erro no login" + (error.message ? `: ${error.message}` : "")
-      );
+      toast.error("Erro no login: " + (error.message ?? "Erro desconhecido"));
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-zinc-900 text-white">
-      <div className="bg-zinc-800 p-6 rounded-lg w-[300px] space-y-4 shadow-lg">
-        <h2 className="text-xl font-bold text-center">Login</h2>
+    <div className="flex !p-6  items-center justify-center h-screen bg-zinc-900 text-white">
+      <div className="flex flex-col !pt-5 !pb-4 bg-zinc-800 p-6 rounded-lg w-[400px] items-center space-y-4 shadow-lg">
+        <h2 className="!mb-4 !text-2xl font-bold text-center">Login</h2>
 
         <Input
           type="email"
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="w-[360px] h-10 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
         />
 
         <Input
@@ -61,9 +73,15 @@ export default function Login() {
           placeholder="Senha"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
+          className="w-[360px] h-10 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
         />
 
-        <Button className="w-full" onClick={handleLogin}>
+        <Button
+          type="submit"
+          variant="secondary"
+          onClick={handleLogin}
+          className="!mt-4 !mb-4 !bg-zinc-300 !rounded-2xl !text-zinc-950 w-[100px] hover:underline"
+        >
           Entrar
         </Button>
 
