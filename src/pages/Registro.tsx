@@ -14,6 +14,8 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { z } from "zod";
+import RegisterImage from "../assets/registered.gif";
+
 
 
 // Schema de validação com zod
@@ -65,16 +67,24 @@ export default function Registro() {
   };
 
   return (
-    <div className="flex !p-6  items-center justify-center h-screen bg-zinc-900 text-white">
-      <div className="flex flex-col !pt-6 !pb-4 bg-zinc-800 p-6 rounded-lg w-[400px] items-center space-y-4 shadow-lg">
-        <h2 className="!mb-4 !text-2xl font-bold text-center">Criar Conta</h2>
-
+    <div className="min-h-screen flex items-center justify-center !bg-gradient-to-b !from-[#0a0a23] !to-[#1a1a2e] text-zinc-200 ">
+      <div className="flex flex-col items-center rounded-md
+      !border-1 !border-cyan-500 !shadow-cyan-500 !shadow-xl/50 !p-6 inset-shadow-sm inset-shadow-cyan-500">
+        <div className="flex justify-center mb-6">
+          <img
+            src={RegisterImage}
+            alt="Login Icon"
+            className="w-20 h-16 rounded-full shadow-md shadow-cyan-500 !mt-3"
+          />
+        </div>
+        <h2 className="!text-2xl !font-bold !text-center !mb-3 !mt-3">Crie sua conta!</h2>
         <Input
           type="name"
           placeholder="Nome"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-[360px] h-10 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
+          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
         />
 
         <Input
@@ -82,7 +92,8 @@ export default function Registro() {
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-[360px] h-10 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
+          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 !pl-3"
         />
 
         <Input
@@ -90,30 +101,33 @@ export default function Registro() {
           placeholder="Senha (mín. 6 caracteres)"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
-          className="w-[360px] h-10 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
+          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
         />
 
         <Select onValueChange={(value: "n1" | "n2") => setTipo(value)}>
-          <SelectTrigger className="w-[360px] h-10 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-400 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3">
+          <SelectTrigger className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-400
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3">
             <SelectValue placeholder="Selecione o seu cargo" />
           </SelectTrigger>
-          <SelectContent className="!bg-zinc-700 text-zinc-200">
-            <SelectItem value="n1">Sou N1 (Service Desk)</SelectItem>
-            <SelectItem value="n2">Sou N2 (Field Service)</SelectItem>
+          <SelectContent className="bg-gray-900 text-zinc-200 h-auto !shadow-cyan-500 !shadow-xl/50 !p-2 inset-shadow-sm inset-shadow-cyan-500">
+            <SelectItem className="h-[30px !p-2" value="n1">Sou N1 (Service Desk)</SelectItem>
+            <SelectItem className="h-[30px] !p-2" value="n2">Sou N2 (Field Service)</SelectItem>
           </SelectContent>
         </Select>
 
         {tipo === "n2" && (
           <Select onValueChange={(value) => setPredio(value as typeof predio)}>
-            <SelectTrigger className="w-[360px] h-10 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-400 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3">
+            <SelectTrigger className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-400
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3">
               <SelectValue placeholder="Selecione o seu Prédio" />
             </SelectTrigger>
-            <SelectContent className="!w-[360px]  !bg-zinc-700 text-zinc-200">
-              <SelectItem value="Adm">Adm</SelectItem>
-              <SelectItem value="Cível">Cível</SelectItem>
-              <SelectItem value="Palácio">Palácio</SelectItem>
-              <SelectItem value="Cidadania">Cidadania</SelectItem>
-              <SelectItem value="Criminal">Criminal</SelectItem>
+            <SelectContent className="bg-gray-900 text-zinc-200 h-auto !shadow-cyan-500 !shadow-xl/50 !p-2 inset-shadow-sm inset-shadow-cyan-500">
+              <SelectItem className="h-[30px] !p-2" value="Adm">Adm</SelectItem>
+              <SelectItem className="h-[30px] !p-2" value="Cível">Cível</SelectItem>
+              <SelectItem className="h-[30px] !p-2" value="Palácio">Palácio</SelectItem>
+              <SelectItem className="h-[30px] !p-2" value="Cidadania">Cidadania</SelectItem>
+              <SelectItem className="h-[30px] !p-2" value="Criminal">Criminal</SelectItem>
             </SelectContent>
           </Select>
         )}
@@ -124,7 +138,7 @@ export default function Registro() {
           type="submit"
           variant="secondary"
           onClick={handleRegistro}
-          className="!mt-4 !mb-4 !bg-zinc-300 !rounded-2xl !text-zinc-950 w-[100px]"
+          className="!mt-4 !mb-4 !bg-cyan-300 !rounded-2xl !text-black w-full hover:underline"
         >
           Criar Conta
         </Button>

@@ -50,10 +50,10 @@ type ChamadoFormData = z.infer<typeof chamadoSchema>;
 export default function NovoChamado() {
   const navigate = useNavigate(); // ← movido para dentro do componente
 
-const handleLogout = async () => {
-  await signOut(auth);
-  navigate("/"); // ← agora funciona corretamente
-};
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/"); // ← agora funciona corretamente
+  };
   const form = useForm<ChamadoFormData>({
     resolver: zodResolver(chamadoSchema),
     defaultValues: {
@@ -82,8 +82,8 @@ const handleLogout = async () => {
   const predios = ["Adm", "Cível", "Palácio", "Criminal", "Cidadania"];
 
   return (
-    <div className="min-h-screen bg-zinc-900 text-white flex items-center justify-center">
-      <Card className="w-full max-w-3xl bg-zinc-800 border border-zinc-700 rounded-2xl shadow-lg ">
+    <div className="min-h-screen flex items-center justify-center !bg-gradient-to-b !from-[#0a0a23] !to-[#1a1a2e] text-zinc-200 ">
+      <Card className="w-full max-w-3xl rounded-2xl bg-cyan-0 !border-1 !border-cyan-500 !shadow-cyan-500 !shadow-xl/50 inset-shadow-sm inset-shadow-cyan-500 ">
         <Toaster />
         <CardHeader className=" !pl-3 !pt-3 mb-6">
           <span className="text-3xl font-bold text-zinc-400">Reportar um chamado</span>
@@ -107,12 +107,13 @@ const handleLogout = async () => {
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger
-                            className="w-[360px] h-10 !pl-3 !border-1 !border-zinc-500 !text-zinc-400 !hover:border-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-500"
+                            className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-400
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
                           >
                             <SelectValue placeholder="Selecione o prédio" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="!bg-zinc-700 text-zinc-200 rounded-none" >
+                        <SelectContent className="bg-gray-900 text-zinc-200 h-auto !shadow-cyan-500 !shadow-xl/50 !p-2 inset-shadow-sm inset-shadow-cyan-500">
                           {predios.map((p) => (
                             <SelectItem key={p} value={p} className="!pl-3 !mb-1 rounded-none hover:bg-zinc-400 !w-full !h-7">
                               {p}
@@ -135,7 +136,8 @@ const handleLogout = async () => {
                       <FormControl>
                         <Input
                           placeholder="Digite o setor"
-                          className="w-[360px] h-10 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
+                          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
                           {...field}
                         />
                       </FormControl>
@@ -155,7 +157,8 @@ const handleLogout = async () => {
                       <FormControl>
                         <Input
                           placeholder="Nome do solicitante"
-                          className="w-[360px] h-10 !pl-3 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500"
+                          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
                           {...field}
                         />
                       </FormControl>
@@ -173,8 +176,8 @@ const handleLogout = async () => {
                       <FormControl>
                         <Input
                           placeholder="Ex: 204"
-                          className="w-[360px] h-10 !pl-3 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-                          {...field}
+                          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"                          {...field}
                         />
                       </FormControl>
                     </FormItem>
@@ -191,8 +194,8 @@ const handleLogout = async () => {
                       <FormControl>
                         <Input
                           placeholder="Título do chamado"
-                          className="w-[360px] h-10 !pl-3 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500"
-                          {...field}
+                          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -209,7 +212,8 @@ const handleLogout = async () => {
                       <FormControl>
                         <Textarea
                           placeholder="Inclua todas as informações relevantes"
-                          className="w-[360px] h-10 !pl-2 !pt-1 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500"
+                          className="cursor-pointer w-[360px] h-11 !mb-4 !p-2 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
                           rows={4}
                           {...field}
                         />
@@ -231,7 +235,7 @@ const handleLogout = async () => {
                 <Button
                   type="submit"
                   variant="secondary"
-                  className="!bg-zinc-300 !rounded-2xl !text-zinc-900 w-[100px] "
+                  className=" !mb-4 !bg-cyan-300 !rounded-2xl !text-black w-[100px] hover:underline"
                 >
                   Enviar
                 </Button>
@@ -240,7 +244,7 @@ const handleLogout = async () => {
               <Button
                 onClick={handleLogout}
                 variant="secondary"
-                className="!bg-red-500 !rounded-sm !text-white hover:underline"
+                className="!bg-red-400 !rounded-sm !text-white hover:underline"
               >
                 Sair
               </Button>

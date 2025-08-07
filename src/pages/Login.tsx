@@ -7,11 +7,12 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { toast, Toaster } from "react-hot-toast";
 import { z } from "zod";
+import LoginImage from "../assets/helpdesk.gif";
 
 // Validação com zod
 const loginSchema = z.object({
-  email: z.string().email({ message: "E-mail inválido" }),
-  senha: z.string().min(6, {message:"Senha Inválida "}),
+  email: z.string().email({ message: "Verique suas informações" }),
+  senha: z.string().min(6, { message: "Verique suas informações" }),
 });
 
 export default function Login() {
@@ -20,16 +21,9 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const resultado = loginSchema.safeParse({ email, senha });
+   
 
-    if (!resultado.success) {
-      resultado.error.issues.forEach((err) => {
-        toast.error(err.message, { icon: "⚠️" });
-      });
-      return;
-    }
-
-    const toastId = toast.loading("Verificando credenciais...",{
+    const toastId = toast.loading("Verificando credenciais...", {
       position: "top-right",
       duration: 4000,
       icon: "🔍",
@@ -76,33 +70,45 @@ export default function Login() {
   };
 
   return (
-    <div className="flex !p-6 items-center justify-center h-screen bg-zinc-900 text-white">
+    <div className="min-h-screen flex items-center justify-center !bg-gradient-to-b !from-[#0a0a23] !to-[#1a1a2e] text-zinc-200 ">
       <Toaster position="top-right" />
-      <div className="flex flex-col bg-zinc-800 !p-6 rounded-lg w-[400px] items-center space-y-4 shadow-lg">
-        <h2 className="!text-2xl !font-bold !text-center !mb-4 !mt-3">Login</h2>
+      <div className="flex flex-col items-center rounded-md
+      !border-1 !border-cyan-500 !shadow-cyan-500 !shadow-xl/50 !p-6 inset-shadow-sm inset-shadow-cyan-500">
+       
+        <div className="flex justify-center mb-6">
+          <img
+            src={LoginImage}
+            alt="Login Icon"
+            className="w-20 h-16 rounded-full shadow-md shadow-cyan-500 !mt-3"
+          />
+        </div>
+        <h2 className="!text-2xl !font-bold !text-center  !mt-3">Bem-vindo de volta!</h2>
+        <p className="!text-sm text-zinc-400 !text-center !mb-4 ">Coloque suas credenciais para entar</p>
+
 
         <Input
           type="email"
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-[360px] h-10 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
-          
-        />
+          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !rounded-2xl !border-zinc-500 
+          !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
+        /> 
 
         <Input
           type="password"
           placeholder="Senha"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
-          className="w-[360px] h-10 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !text-zinc-100 hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
-         />
+          className="cursor-pointer w-[360px] h-11 !mb-4 !bg-zinc-850 !border-1 !border-zinc-500 !rounded-2xl !text-zinc-100
+          hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 !pl-3"
+        />
 
-          <Button
+        <Button
           type="submit"
           variant="secondary"
           onClick={handleLogin}
-          className="!mt-4 !mb-4 !bg-zinc-300 !rounded-2xl !text-zinc-950 w-[100px] hover:underline"
+          className="!mt-4 !mb-4 !bg-cyan-300 !rounded-2xl !text-black w-full hover:underline"
         >
           Entrar
         </Button>
@@ -111,7 +117,7 @@ export default function Login() {
           onClick={() => navigate("/registro")}
           className="text-sm text-zinc-400 hover:underline text-center cursor-pointer"
         >
-          Criar uma conta
+          Ainda não tem cadastro? Criar uma conta
         </p>
       </div>
     </div>
